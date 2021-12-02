@@ -4,6 +4,11 @@ from datetime import datetime
 
 
 class Draw(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
     Date : Optional[datetime] = Field(None, description = "date time format exiged YYYY-MM-DD")
     N1 : int = Field(..., gt = 0, lt = 51 , description = ' N1 must be an INT between 1 and 50 (included)')
     N2 : int = Field(..., gt = 0, lt = 51 , description = ' N2 must be an INT between 1 and 50 (included)')
