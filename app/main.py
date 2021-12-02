@@ -19,7 +19,7 @@ async def get_name(name: str):
 @app.post('/predict')
 async def predict_draw_probability(data:Draw):
     data = data.dict()
-    proba = 0.5
+    proba = 0.8
     return {
         'Proba gain': proba,
         'Proba perte': 1-proba
