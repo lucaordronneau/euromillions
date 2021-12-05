@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.svm import SVC
 
+from joblib import dump
+
 def formatData(tirages):
     """[summary]
 
@@ -56,3 +58,6 @@ def model(X_train, y_train):
     
     return model
 
+def saveModel(model):
+    dump(model, '/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/model/model.jolib')
+    
