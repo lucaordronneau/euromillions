@@ -1,5 +1,7 @@
 from fastapi import APIRouter
 import sys
+import os
+import inspect
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import Draw
 from joblib import load
@@ -19,23 +21,23 @@ async def predict_draw_probability(data:Draw):
         [type]: [description]
     """
     print("enculé")
+    
+    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    parentdir = os.path.dirname(currentdir)
+    model = load(parentdir + '/src/data/model/model.jolib')
 
-    model = load('../src/data/model.joblib')
+    
+    draw = np.array([data.N1,data.N2,data.N3,data.N4,data.N5, data.E1, data.E2])
+    # add features
+    draw = np.concatenate((draw, [lowHighPatterns(draw),oddEvenPatterns(draw)]), axis=0)
+    draw = np.expand_dims(draw, axis=0)
+    
+    # predict probabilities
+    proba = model.predict_proba(draw)
+    proba =  proba.tolist()[0][0]
 
-    
-    
-    
-    # draw = np.array([data.N1,data.N2,data.N3,data.N4,data.N5, data.E1, data.E2])
-    # lowHighProba = oddEvenPatterns(draw)
-    # oddEvenProba = lowHighPatterns(draw)
-    # draw = np.concatenate((draw, [lowHighProba,oddEvenProba ]), axis=0)
-    
-    # proba = model.predict_probal(draw)
-    proba = 0.1
-    print(data.dict())
 
     return {
-        'aaa' : 'a',
         'Proba gain': proba,
         'Proba perte': 1-proba
     }
