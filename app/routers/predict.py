@@ -1,17 +1,18 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 import sys
 import os
 import inspect
 sys.path.append('/../classes/Draw.py')
-from classes.Draw import Draw
+from classes.Draw import DrawPredict
 from joblib import load
 import numpy as np
 from src.dataset import oddEvenPatterns, lowHighPatterns
 
+
 router = APIRouter()
 
 @router.post('/predict')
-async def predict_draw_probability(data:Draw):
+async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
     """[summary]
 
     Args:
