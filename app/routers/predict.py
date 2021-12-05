@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body
 import sys
 import os
 import inspect
+import math
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import DrawPredict
 from joblib import load
@@ -39,6 +40,6 @@ async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
 
 
     return {
-        'Proba gain': proba,
-        'Proba perte': 1-proba
+        'Proba gain (%)': round(proba * 100, 2),
+        'Proba perte (%)': round((1-proba )* 100, 2)
     }
