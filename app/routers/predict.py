@@ -21,9 +21,7 @@ async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
 
     Returns:
         [type]: [description]
-    """
-    print("enculé")
-    
+    """    
     currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     parentdir = os.path.dirname(currentdir)
     model = load(parentdir + '/src/data/model/model.jolib')
