@@ -2,6 +2,8 @@ import numpy as np
 
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 from sklearn.svm import SVC
 
@@ -61,3 +63,27 @@ def model(X_train, y_train):
 def saveModel(model):
     dump(model, '/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/model/model.jolib')
     
+
+def getF1score(y_test, y_pred):
+    """[summary]
+
+    Args:
+        y_test ([type]): [description]
+        y_pred ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    return f1_score(y_test, y_pred)
+    
+def getPrecision(y_test, y_pred):
+    """[summary]
+
+    Args:
+        y_test ([type]): [description]
+        y_pred ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    return accuracy_score(y_test, y_pred)
