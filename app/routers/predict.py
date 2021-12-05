@@ -36,7 +36,7 @@ async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
     
     # predict probabilities
     proba = model.predict_proba(draw)
-    proba =  proba.tolist()[0][0]
+    proba =  proba.tolist()[0][1]
 
 
     return {
