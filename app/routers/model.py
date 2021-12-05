@@ -2,13 +2,13 @@ from fastapi import APIRouter, Body
 import sys
 import os
 import inspect
-import math
+import pandas as pd
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import Draw, DrawPredict
 from joblib import load
 import numpy as np
 from src.model import getF1score, getPrecision
-
+import csv      
 
 router = APIRouter()
 
@@ -31,3 +31,19 @@ async def getInfos():
         "Model Name": type(model).__name__,
         "Parameters" : "A compléter"
     }
+
+@router.put('/model')
+async def addDraw(draw: Draw):
+    
+    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    parentdir = os.path.dirname(currentdir)
+    path = parentdir + '/src/data/EuroMillions_numbers.csv'
+    
+    with open(path, 'r') as f:
+        reader = csv.reader(f)
+        lines= len(list(reader))-1
+    
+    with open(path, 'a+', newline='') as write_obj:
+        writer = csv.writer(write_obj, delimiter=';')
+        draw=[lines,draw.Date, draw.N1, draw.N2,draw.N3,draw.N4,draw.N5,draw.E1,draw.E2,draw.Gain]
+        writer.writerow(draw)
