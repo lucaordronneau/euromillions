@@ -4,7 +4,7 @@ import os
 import inspect
 
 from src.dataset import oddEvenPatterns, lowHighPatterns
-from src.predict import generateRandomDraws
+from src.predict import generateRandomDraws, loadModel
 
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import DrawPredict
@@ -27,13 +27,11 @@ async def predictDrawProbability(data:DrawPredict):
     Returns:
         [type]: [description]
     """    
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    model = load(parentdir + '/src/data/model/model.jolib')
+    # load model
+    model = loadModel()
 
-    
+    # add features to the entry
     draw = np.array([data.N1,data.N2,data.N3,data.N4,data.N5, data.E1, data.E2])
-    # add features
     draw = np.concatenate((draw, [lowHighPatterns(draw),oddEvenPatterns(draw)]), axis=0)
     draw = np.expand_dims(draw, axis=0)
     
@@ -60,13 +58,10 @@ async def predictBestProba(numberOfDrawsToGenerate:int):
     Returns:
         [type]: [description]
     """    
-
-
-    # load model
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    model = load(parentdir + '/src/data/model/model.jolib')
     
+    # load model
+    model = loadModel()
+
     # generate draws
     drawsGenerated = generateRandomDraws(numberOfDrawsToGenerate)
     

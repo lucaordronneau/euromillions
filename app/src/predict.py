@@ -1,5 +1,5 @@
 import numpy as np
-import os, inspect, sys
+import os, inspect
 
 from joblib import load
 from src.dataset import oddEvenPatterns, lowHighPatterns
@@ -7,6 +7,13 @@ from src.dataset import oddEvenPatterns, lowHighPatterns
 from itertools import combinations
 
 
+def loadModel():
+    # get dir
+    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    # get parent dir to get model
+    parentdir = os.path.dirname(currentdir)
+    
+    return load(parentdir + '/src/data/model/model.jolib')
 
 def generateRandomDraws(n = 5000):
     res = []
