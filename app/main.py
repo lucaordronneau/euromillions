@@ -34,6 +34,6 @@ async def get_name(name: str):
 app.include_router(predict.router)
  
 # Run the API with uvicorn
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # uvicorn.run(app, host="127.0.0.1", port=8000)
-    run("/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/EuroMillions_numbers.csv")
+    # run("/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/EuroMillions_numbers.csv")
