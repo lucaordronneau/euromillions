@@ -2,18 +2,23 @@ from fastapi import APIRouter, Body
 import sys
 import os
 import inspect
-import math
+
+from src.dataset import oddEvenPatterns, lowHighPatterns
+from src.predict import generateRandomDraws
+
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import DrawPredict
+
 from joblib import load
 import numpy as np
-from src.dataset import oddEvenPatterns, lowHighPatterns
+
+
 
 
 router = APIRouter()
 
 @router.post('/predict')
-async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
+async def predictDrawProbability(data:DrawPredict):
     """[summary]
 
     Args:
@@ -41,3 +46,44 @@ async def predict_draw_probability(data:DrawPredict = Body(..., embed=True)):
         'Proba gain (%)': round(proba * 100, 2),
         'Proba perte (%)': round((1-proba )* 100, 2)
     }
+
+
+
+        
+@router.get('/predict', response_model=DrawPredict)
+async def predictBestProba(numberOfDrawsToGenerate:int):
+    """[summary]
+
+    Args:
+        data (Draw): [description]
+
+    Returns:
+        [type]: [description]
+    """    
+
+
+    # load model
+    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    parentdir = os.path.dirname(currentdir)
+    model = load(parentdir + '/src/data/model/model.jolib')
+    
+    # generate draws
+    drawsGenerated = generateRandomDraws(numberOfDrawsToGenerate)
+    
+    # predict probabilities of generated draws
+    proba = model.predict_proba(drawsGenerated)
+    
+    # get the best draw based on the probability to win lottery predicted by the model
+    maxProba = 0
+    for i in range(len(proba)):
+        if proba[i][1] > maxProba:
+            maxProba = proba[i][1]
+            bestDraw = drawsGenerated[i][0:7].tolist()
+            
+    draw = {}
+    key = ['N1','N2', 'N3', 'N4', 'N5', 'E1', 'E2']
+    for i in range(len(key)):
+        draw[key[i]] = bestDraw[i]
+    
+
+    return  draw
