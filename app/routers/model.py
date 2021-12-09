@@ -47,9 +47,11 @@ async def addDraw(draw: Draw):
         writer = csv.writer(write_obj, delimiter=';')
         draw=[lines,draw.Date, draw.N1, draw.N2,draw.N3,draw.N4,draw.N5,draw.E1,draw.E2,draw.Gain]
         writer.writerow(draw)
+    
+    return {"message": "Success of adding a draw"}
         
 @router.post('/model/retrain')
-async def retrain():
+async def retrain() -> dict:
     
     df = pd.read_csv(csv_path, sep=";")
     draws = df[["N1", "N2", "N3", "N4", "N5", "E1", "E2"]].to_numpy()
@@ -62,4 +64,6 @@ async def retrain():
     with open(test_path, 'wb') as f:
         np.save(f, np.array(X_test))
         np.save(f, np.array(y_test))
+        
+    return {"message": "Successful re-training"}
     
