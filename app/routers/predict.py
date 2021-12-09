@@ -21,7 +21,7 @@ router = APIRouter()
 @router.post('/predict')
 # async function to predict the probability to win the lotterie for a draw given by the user
 async def predictDrawProbability(data : DrawPredict) -> str:
-    """[summary]
+    """
     This function return the probability to win and to lose (1-p(win)) the loterie for a draw given in input by the user
 
     Args:
@@ -62,7 +62,7 @@ async def predictDrawProbability(data : DrawPredict) -> str:
 @router.get('/predict', response_model=DrawPredict)
 # async function to predict the draw that have the best probability to win the lotery
 async def predictBestProba(numberOfDrawsToGenerate:int):
-    """[summary]
+    """
     This function generate random plausible draws and return the one with the best probability to win the lotery. The user chose the number of draws to generate
     Args:
         numberOfDrawsToGenerate (int): The number of draw to generate and predict the probability
