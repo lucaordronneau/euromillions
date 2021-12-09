@@ -1,3 +1,4 @@
+from typing import Any
 import numpy as np
 
 from sklearn.utils import shuffle
@@ -45,7 +46,7 @@ def splitData(X, y):
     
     return X_train, X_test, y_train, y_test
 
-def model(X_train, y_train):
+def model(X_train, y_train) -> SVC:
     """[summary]
 
     Args:
@@ -53,18 +54,18 @@ def model(X_train, y_train):
         y_train ([type]): [description]
 
     Returns:
-        [type]: [description]
+        SVC: [description]
     """
     model = SVC(probability=True)
     model.fit(X_train, y_train)
     
     return model
 
-def saveModel(model):
+def saveModel(model) -> None:
     dump(model, '/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/model/model.jolib')
     
 
-def getF1score(y_test, y_pred):
+def getF1score(y_test, y_pred) -> float:
     """[summary]
 
     Args:
@@ -72,11 +73,11 @@ def getF1score(y_test, y_pred):
         y_pred ([type]): [description]
 
     Returns:
-        [type]: [description]
+        float: [description]
     """
     return f1_score(y_test, y_pred)
     
-def getPrecision(y_test, y_pred):
+def getPrecision(y_test, y_pred) -> float:
     """[summary]
 
     Args:
@@ -84,6 +85,6 @@ def getPrecision(y_test, y_pred):
         y_pred ([type]): [description]
 
     Returns:
-        [type]: [description]
+        float: [description]
     """
     return accuracy_score(y_test, y_pred)

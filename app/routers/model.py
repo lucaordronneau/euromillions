@@ -1,26 +1,29 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter
+
 import sys
-import os
-import inspect
+import csv   
 import pandas as pd
-sys.path.append('/../classes/Draw.py')
-from classes.Draw import Draw, DrawPredict
-from joblib import load
 import numpy as np
+
+sys.path.append('/../classes/Draw.py')
+from classes.Draw import Draw
+
 from src.model import getF1score, getPrecision, formatData, splitData, model, saveModel
 from src.dataset import createDraws
-import csv      
+from src.help_functions import  getCSV, getTestFile, loadModel
+   
+csv_path = getCSV()
+test_path = getTestFile()
 
 router = APIRouter()
 
 @router.get('/model')
 async def getInfos():
-    
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    model = load(parentdir + '/src/data/model/model.jolib')
 
-    with open(parentdir + '/src/data/test/test.npy', 'rb') as f:
+    # call the function "loadModel" in src/predict.py to load the prediction model located in src/data/model
+    model = loadModel()
+
+    with open(test_path, 'rb') as f:
         X_test = np.load(f)
         y_test = np.load(f)
         
@@ -36,24 +39,17 @@ async def getInfos():
 @router.put('/model')
 async def addDraw(draw: Draw):
     
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    path = parentdir + '/src/data/EuroMillions_numbers.csv'
-    
-    with open(path, 'r') as f:
+    with open(csv_path, 'r') as f:
         reader = csv.reader(f)
         lines= len(list(reader))-1
     
-    with open(path, 'a+', newline='') as write_obj:
+    with open(csv_path, 'a+', newline='') as write_obj:
         writer = csv.writer(write_obj, delimiter=';')
         draw=[lines,draw.Date, draw.N1, draw.N2,draw.N3,draw.N4,draw.N5,draw.E1,draw.E2,draw.Gain]
         writer.writerow(draw)
         
 @router.post('/model/retrain')
 async def retrain():
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    csv_path = parentdir + '/src/data/EuroMillions_numbers.csv'
     
     df = pd.read_csv(csv_path, sep=";")
     draws = df[["N1", "N2", "N3", "N4", "N5", "E1", "E2"]].to_numpy()
@@ -63,11 +59,7 @@ async def retrain():
     clf = model(X_train, y_train)
     saveModel(clf)
     
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    parentdir = os.path.dirname(currentdir)
-    path = parentdir + '/src/data/test/test.npy'
-    
-    with open(path, 'wb') as f:
+    with open(test_path, 'wb') as f:
         np.save(f, np.array(X_test))
         np.save(f, np.array(y_test))
     

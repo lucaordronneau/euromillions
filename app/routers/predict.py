@@ -1,18 +1,14 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter
+
 import sys
-import os
-import inspect
+import numpy as np
 
 from src.dataset import oddEvenPatterns, lowHighPatterns
-from src.predict import generateRandomDraws, loadModel
+from src.predict import generateRandomDraws
+from src.help_functions import loadModel
 
 sys.path.append('/../classes/Draw.py')
 from classes.Draw import DrawPredict
-
-from joblib import load
-import numpy as np
-
-
 
 # create the router
 router = APIRouter()
@@ -28,7 +24,7 @@ async def predictDrawProbability(data : DrawPredict) -> str:
         data (Draw): The input that the user want to estimated the probability to win the loterie. It is of type Draw
 
     Returns:
-        [str]: return a json with : the probability to win and the probability to lose the lotery for the input given
+        str: return a json with : the probability to win and the probability to lose the lotery for the input given
     """    
     # call the function "loadModel" in src/predict.py to load the prediction model located in src/data/model
     model = loadModel()
@@ -56,19 +52,17 @@ async def predictDrawProbability(data : DrawPredict) -> str:
         'Proba lose (%)': round((1-proba )* 100, 2)
     }
 
-
-
 # add get method for the predict path       
 @router.get('/predict', response_model=DrawPredict)
 # async function to predict the draw that have the best probability to win the lotery
-async def predictBestProba(numberOfDrawsToGenerate:int):
+async def predictBestProba(numberOfDrawsToGenerate: int) -> dict:
     """
     This function generate random plausible draws and return the one with the best probability to win the lotery. The user chose the number of draws to generate
     Args:
         numberOfDrawsToGenerate (int): The number of draw to generate and predict the probability
 
     Returns:
-        [DrawPredict]: return the draw that was predicted having the best probability to win.
+        dict: return the draw that was predicted having the best probability to win.
     """    
     
     # call the function "loadModel" in src/predict.py to load the prediction model located in src/data/model

@@ -1,34 +1,10 @@
+from typing import Any
 import numpy as np
-import os, inspect
 
-from joblib import load
 from src.dataset import oddEvenPatterns, lowHighPatterns
 
-from itertools import combinations
-
-# this function get the path where the model is saved and load it
-def loadModel():
-    """
-    This function get the path where the model is saved and load it
-
-    Args:
-        No args are needed
-
-    Returns:
-        load the model
-    """ 
-    # get the current directory dir
-    currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    # get parent dir to get model
-    parentdir = os.path.dirname(currentdir)
-    
-    # call the function load with the path to load the prediction model
-    return load(parentdir + '/src/data/model/model.jolib')
-
-
-
 # This function take as input the number of draw to generate and create them.
-def generateRandomDraws(n : int = 5000):
+def generateRandomDraws(n : int = 5000) -> Any:
     """
     This function take as input the number of draw to generate and create Draw type draws
 
