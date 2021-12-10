@@ -6,13 +6,15 @@ app = FastAPI()
 
 # Index route
 @app.get('/')
-async def index():
+async def index() -> dict:
     """[summary]
 
     Returns:
-        [type]: [description]
+        dict: [description]
     """
     return {'message': 'Hello, stranger'}
 
+# include route : predict
 app.include_router(predict.router)
+# include route : model
 app.include_router(model.router)

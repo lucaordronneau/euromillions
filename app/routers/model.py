@@ -18,8 +18,12 @@ test_path = getTestFile()
 router = APIRouter()
 
 @router.get('/model')
-async def getInfos():
+async def getInfos() -> dict:
+    """[summary]
 
+    Returns:
+        dict: [description]
+    """
     # call the function "loadModel" in src/predict.py to load the prediction model located in src/data/model
     model = loadModel()
 
@@ -37,8 +41,15 @@ async def getInfos():
     }
 
 @router.put('/model')
-async def addDraw(draw: Draw):
-    
+async def addDraw(draw: Draw) -> dict:
+    """[summary]
+
+    Args:
+        draw (Draw): [description]
+
+    Returns:
+        dict: [description]
+    """
     with open(csv_path, 'r') as f:
         reader = csv.reader(f)
         lines= len(list(reader))-1
@@ -52,7 +63,11 @@ async def addDraw(draw: Draw):
         
 @router.post('/model/retrain')
 async def retrain() -> dict:
-    
+    """[summary]
+
+    Returns:
+        dict: [description]
+    """
     df = pd.read_csv(csv_path, sep=";")
     draws = df[["N1", "N2", "N3", "N4", "N5", "E1", "E2"]].to_numpy()
     draws = createDraws(draws)
