@@ -1,5 +1,6 @@
 # EUROMILLIONS
-![alt text]("../images/logo_euromillion.png")
+## By Ordronneau Luca and Ettarian Julian
+![alt text](images/logo_euromillion.png)
 ## Description
 
 Creation of a FastAPI application for the euromillions which predicts whether a sequence of 5 numbers and 2 star numbers is winning.
