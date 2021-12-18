@@ -6,7 +6,10 @@
 Creation of a FastAPI application for the euromillions which predicts whether a sequence of 5 numbers and 2 star numbers is winning.
 ## Launch the app
 ```
-cd app
+create your virtualenv
+cd euromillions/
+pip install -r requirements.txt
+cd app/
 uvicorn main:app --reload
 ```
 ## Project Architecture
