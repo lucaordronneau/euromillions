@@ -4,10 +4,10 @@ from datetime import datetime
 
 
 class Draw(BaseModel):
-    """[summary]
+    """Class of a complete draw
 
     Args:
-        BaseModel ([type]): [description]
+        BaseModel
     """
     Date : Optional[datetime] = Field(None, description = "date time format exiged YYYY-MM-DD")
     N1 : int = Field(..., gt = 0, lt = 51 , description = ' N1 must be an INT between 1 and 50 (included)' , example = 1)
@@ -22,10 +22,10 @@ class Draw(BaseModel):
     
 
 class DrawPredict(BaseModel):
-    """[summary]
+    """Class of a draw with only numbers
 
     Args:
-        BaseModel ([type]): [description]
+        BaseModel
     """
     N1 : int = Field(..., gt = 0, lt = 51 , description = ' N1 must be an INT between 1 and 50 (included)' , example = 1)
     N2 : int = Field(..., gt = 0, lt = 51 , description = ' N2 must be an INT between 1 and 50 (included)' , example = 34)

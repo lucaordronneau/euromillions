@@ -19,10 +19,10 @@ router = APIRouter()
 
 @router.get('/model')
 async def getInfos() -> dict:
-    """[summary]
+    """Allows to get the infos of the model
 
     Returns:
-        dict: [description]
+        dict
     """
     # call the function "loadModel" in src/predict.py to load the prediction model located in src/data/model
     model = loadModel()
@@ -36,19 +36,18 @@ async def getInfos() -> dict:
     return {
         "F1 Score" : round(getF1score(y_test, y_pred)*100,2),
         "Accuracy Score" : round(getPrecision(y_test, y_pred)*100,2),
-        "Model Name": type(model).__name__,
-        "Parameters" : "A compléter"
+        "Model Name": type(model).__name__
     }
 
 @router.put('/model')
 async def addDraw(draw: Draw) -> dict:
-    """[summary]
+    """Allow to add a draw to the csv file
 
     Args:
-        draw (Draw): [description]
+        draw (Draw)
 
     Returns:
-        dict: [description]
+        dict: Message
     """
     with open(csv_path, 'r') as f:
         reader = csv.reader(f)
@@ -63,10 +62,10 @@ async def addDraw(draw: Draw) -> dict:
         
 @router.post('/model/retrain')
 async def retrain() -> dict:
-    """[summary]
+    """Retrain the model
 
     Returns:
-        dict: [description]
+        dict: Message
     """
     df = pd.read_csv(csv_path, sep=";")
     draws = df[["N1", "N2", "N3", "N4", "N5", "E1", "E2"]].to_numpy()

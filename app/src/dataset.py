@@ -1,13 +1,14 @@
 import numpy as np
 
 def oddEvenPatterns(t: np.array):
-    """[summary]
+    """Feature engineering according to even and odd numbers.
+    Output probabilities are applied.
 
     Args:
-        t (np.array): [description]
+        t (np.array): array of 5 numbers
 
     Returns:
-        [type]: [description]
+        float: probability of this draw 
     """
     nb = sum(1-n%2 for n in t)
     if ((nb==1) or (nb==4)):
@@ -19,13 +20,14 @@ def oddEvenPatterns(t: np.array):
     return result
 
 def lowHighPatterns(t: np.array):
-    """[summary]
+    """Feature engineering according to low and high numbers.
+    Output probabilities are applied.
 
     Args:
-        t (np.array): [description]
+        t (np.array): array of 5 numbers
 
     Returns:
-        [type]: [description]
+        float: probability of this draw 
     """
     nb = sum(n<26 for n in t)
     if ((nb==1) or (nb==4)):
@@ -37,7 +39,7 @@ def lowHighPatterns(t: np.array):
     return result
 
 def createDraws(tirages: np.array, n=4):
-    """[summary]
+    """Allows us to increment our dataset with new draws
 
     Args:
         tirages (np.array): [description]

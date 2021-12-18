@@ -11,7 +11,7 @@ from sklearn.svm import SVC
 from joblib import dump
 
 def formatData(tirages):
-    """[summary]
+    """Allows formatting of data for training
 
     Args:
         tirages ([type]): [description]
@@ -32,14 +32,8 @@ def formatData(tirages):
     return X, y
 
 def splitData(X, y):
-    """[summary]
+    """Allows data to be separated into training and test data
 
-    Args:
-        X ([type]): [description]
-        y ([type]): [description]
-
-    Returns:
-        [type]: [description]
     """
     X, y = shuffle(X, y, random_state=0)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=13)
@@ -47,14 +41,14 @@ def splitData(X, y):
     return X_train, X_test, y_train, y_test
 
 def model(X_train, y_train) -> SVC:
-    """[summary]
+    """Allows the model to be trained with SVC
 
     Args:
-        X_train ([type]): [description]
-        y_train ([type]): [description]
+        X_train
+        y_train
 
     Returns:
-        SVC: [description]
+        SVC: model
     """
     model = SVC(probability=True)
     model.fit(X_train, y_train)
@@ -62,29 +56,34 @@ def model(X_train, y_train) -> SVC:
     return model
 
 def saveModel(model) -> None:
+    """Allows the model to be separated 
+
+    Args:
+        model : model
+    """
     dump(model, '/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/model/model.jolib')
     
 
 def getF1score(y_test, y_pred) -> float:
-    """[summary]
+    """Returns the f1 score of the model 
 
     Args:
-        y_test ([type]): [description]
-        y_pred ([type]): [description]
+        y_test
+        y_pred
 
     Returns:
-        float: [description]
+        float: f1 score
     """
     return f1_score(y_test, y_pred)
     
 def getPrecision(y_test, y_pred) -> float:
-    """[summary]
+    """Returns the precision score of the model 
 
     Args:
-        y_test ([type]): [description]
-        y_pred ([type]): [description]
+        y_test
+        y_pred
 
     Returns:
-        float: [description]
+        float: precision
     """
     return accuracy_score(y_test, y_pred)

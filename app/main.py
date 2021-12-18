@@ -7,10 +7,10 @@ app = FastAPI()
 # Index route
 @app.get('/')
 async def index() -> dict:
-    """[summary]
+    """Welcome message
 
     Returns:
-        dict: [description]
+        dict:
     """
     return {'message': 'Hello, stranger'}
 
