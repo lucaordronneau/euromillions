@@ -10,14 +10,16 @@ from sklearn.svm import SVC
 
 from joblib import dump
 
-def formatData(tirages):
+from typing import Union
+
+def formatData(tirages: np.array) -> Union[np.array, np.array]:
     """Allows formatting of data for training
 
     Args:
-        tirages ([type]): [description]
+        tirages (np.array)
 
     Returns:
-        [type]: [description]
+        Union[np.array, np.array]
     """
     X = []
     y = []
@@ -31,21 +33,27 @@ def formatData(tirages):
     
     return X, y
 
-def splitData(X, y):
+def splitData(X: np.array, y:  np.array) -> Union[np.array, np.array, np.array, np.array]:
     """Allows data to be separated into training and test data
 
+    Args:
+        X (np.array)
+        y (np.array)
+
+    Returns:
+        Union[np.array, np.array, np.array, np.array]
     """
     X, y = shuffle(X, y, random_state=0)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=13)
     
     return X_train, X_test, y_train, y_test
 
-def model(X_train, y_train) -> SVC:
+def model(X_train: np.array, y_train: np.array) -> SVC:
     """Allows the model to be trained with SVC
 
     Args:
-        X_train
-        y_train
+        X_train (np.array)
+        y_train (np.array)
 
     Returns:
         SVC: model
@@ -64,24 +72,24 @@ def saveModel(model) -> None:
     dump(model, '/home/eisti/Documents/ING3-IA/Architecture Microservice/euromillions/app/src/data/model/model.jolib')
     
 
-def getF1score(y_test, y_pred) -> float:
+def getF1score(y_test: np.array, y_pred: np.array) -> float:
     """Returns the f1 score of the model 
 
     Args:
-        y_test
-        y_pred
+        y_test (np.array)
+        y_pred (np.array)
 
     Returns:
         float: f1 score
     """
     return f1_score(y_test, y_pred)
     
-def getPrecision(y_test, y_pred) -> float:
+def getPrecision(y_test: np.array, y_pred: np.array) -> float:
     """Returns the precision score of the model 
 
     Args:
-        y_test
-        y_pred
+        y_test (np.array)
+        y_pred (np.array)
 
     Returns:
         float: precision

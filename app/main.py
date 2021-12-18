@@ -10,7 +10,7 @@ async def index() -> dict:
     """Welcome message
 
     Returns:
-        dict:
+        dict
     """
     return {'message': 'Hello, stranger'}
 

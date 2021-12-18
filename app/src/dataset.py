@@ -1,6 +1,6 @@
 import numpy as np
 
-def oddEvenPatterns(t: np.array):
+def oddEvenPatterns(t: np.array) -> float:
     """Feature engineering according to even and odd numbers.
     Output probabilities are applied.
 
@@ -19,7 +19,7 @@ def oddEvenPatterns(t: np.array):
         result = 0.0250759878419453
     return result
 
-def lowHighPatterns(t: np.array):
+def lowHighPatterns(t: np.array) -> float:
     """Feature engineering according to low and high numbers.
     Output probabilities are applied.
 
@@ -38,15 +38,15 @@ def lowHighPatterns(t: np.array):
         result = 0.0250759878419453
     return result
 
-def createDraws(tirages: np.array, n=4):
+def createDraws(tirages: np.array, n=4) -> np.array:
     """Allows us to increment our dataset with new draws
 
     Args:
-        tirages (np.array): [description]
-        n (int, optional): [description]. Defaults to 4.
+        tirages (np.array): dataset
+        n (int, optional): Add n draw by draw. Defaults to 4.
 
     Returns:
-        [type]: [description]
+        np.array: augmented dataset
     """
     tirages_tmp = np.copy(tirages)
     l = []
@@ -64,14 +64,17 @@ def createDraws(tirages: np.array, n=4):
         array_etoiles = tirage[-2:]
         
         for i in range(n):
+            # Generate 5 numbers different from the draw numbers and each numbers different between themselves
             numeros_generation = np.random.choice(np.arange(1, 51), replace=False, size=(5,))
             while (np.sort(array_numeros) == np.sort(numeros_generation)).all():
                 numeros_generation = np.random.choice(np.arange(1, 51), replace=False, size=(5,))
             
+            # Generate 2 stars different from the draw stars and each stars different between themselves
             etoiles_generation = np.random.choice(np.arange(1, 13), replace=False, size=(2,))
             while (np.sort(array_etoiles) == np.sort(etoiles_generation)).all():
                 etoiles_generation = np.random.choice(np.arange(1, 13), replace=False, size=(2,))
-                
+            
+            # Feature engineering on the generated draw
             row_to_append = np.concatenate((numeros_generation, etoiles_generation), axis=0)
             row_to_append = np.concatenate((row_to_append, [oddEvenPatterns(numeros_generation)]), axis=0)
             row_to_append = np.concatenate((row_to_append, [lowHighPatterns(numeros_generation)]), axis=0)

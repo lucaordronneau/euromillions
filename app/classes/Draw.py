@@ -22,7 +22,7 @@ class Draw(BaseModel):
     
 
 class DrawPredict(BaseModel):
-    """Class of a draw with only numbers
+    """Class of a draw with only the 5 numbers and the 2 stars
 
     Args:
         BaseModel
